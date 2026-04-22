@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyLine ✈ Авиаперевозки</title>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f5f9ff 0%, #e6f0fa 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Основной контейнер */
+        .wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0, 20, 50, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* ХЕДЕР */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 30px;
+            background: #0b2f5c;
+            color: white;
+            border-bottom: 4px solid #f7b731;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* ЛОГОТИП (изображение) */
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: #f7b731;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #0b2f5c;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-text h1 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        .logo-text span {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .header-contact {
+            display: flex;
+            gap: 20px;
+            font-size: 1rem;
+        }
+        .header-contact i {
+            margin-right: 8px;
+            color: #f7b731;
+        }
+
+        /* НАВИГАЦИЯ (меню) */
+        .nav-tabs {
+            display: flex;
+            background: #1e4a76;
+            padding: 0 30px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #e0edf9;
+            font-size: 1.05rem;
+            font-weight: 500;
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-btn i {
+            font-size: 1.1rem;
+        }
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        .tab-btn.active {
+            color: white;
+            border-bottom-color: #f7b731;
+            background: rgba(247, 183, 49, 0.1);
+        }
+
+        /* ОСНОВНОЙ КОНТЕНТ */
+        .main-content {
+            padding: 30px;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fade 0.25s ease;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from { opacity: 0.3; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* карточки, таблицы */
+        .section-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #0b2f5c;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            border-left: 6px solid #f7b731;
+            padding-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #0b2f5c;
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 500;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee7ef;
+        }
+        tr:hover td {
+            background: #fafcff;
+        }
+
+        .badge {
+            background: #1e4a76;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge.success {
+            background: #2e7d32;
+        }
+        .badge.warning {
+            background: #b85b14;
+        }
+
+        .btn {
+            background: #0b2f5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
+        }
+        .btn i {
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background: #1e4a76;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(11,47,92,0.2);
+        }
+        .btn-accent {
+            background: #f7b731;
+            color: #0b2f5c;
+        }
+        .btn-accent:hover {
+            background: #ffc94b;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            color: #1e3a5f;
+        }
+        input, select {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 16px;
+            border: 2px solid #d4e0ec;
+            border-radius: 30px;
+            font-size: 1rem;
+            background: white;
+            transition: 0.2s;
+        }
+        input:focus, select:focus {
+            border-color: #f7b731;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(247,183,49,0.2);
+        }
+
+        .result-box {
+            margin-top: 20px;
+            background: #eef3fa;
+            padding: 18px 22px;
+            border-radius: 20px;
+        }
+
+        .flight-highlight {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0b2f5c;
+        }
+
+        /* сайдбар-подобный блок для быстрого бронирования */
+        .booking-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .seat-info {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0b2f5c;
+        }
+
+        /* футер */
+        .footer {
+            padding: 20px 30px;
+            background: #0a233b;
+            color: #bbd1e5;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #f7b731;
+            text-decoration: none;
+        }
+
+        /* адаптив */
+        @media (max-width: 700px) {
+            .header { flex-direction: column; align-items: start; gap: 10px; }
+            .nav-tabs { padding: 0 15px; }
+            .tab-btn { padding: 12px 16px; }
+        }
+
+        /* изображение самолета для иллюстрации (инструкция ниже) */
+        .airplane-illustration {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .airplane-illustration img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+        }
+
+        /* стиль для списка пассажиров */
+        .passenger-list {
+            list-style: none;
+            margin-top: 12px;
+        }
+        .passenger-list li {
+            padding: 6px 0;
+            border-bottom: 1px dashed #b0c8dd;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <!-- ХЕДЕР -->
+    <header class="header">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <!-- Вместо картинки можно вставить изображение из Font Awesome, 
+                     но по заданию нужна вставка изображения. Поэтому добавим <img> позже -->
+                <i class="fas fa-plane"></i>
+            </div>
+            <div class="logo-text">
+                <h1>SkyLine <span style="font-weight:300;">✈</span></h1>
+                <span>авиаперевозки без границ</span>
+            </div>
+        </div>
+        <div class="header-contact">
+            <span><i class="fas fa-phone-alt"></i> 8 (800) 555-19-87</span>
+            <span><i class="fas fa-envelope"></i> fly@skyline.ru</span>
+        </div>
+    </header>
+
+    <!-- НАВИГАЦИЯ (ВКЛАДКИ) -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="schedule"><i class="fas fa-calendar-alt"></i> Расписание</button>
+        <button class="tab-btn" data-tab="search"><i class="fas fa-search"></i> Поиск рейса</button>
+        <button class="tab-btn" data-tab="booking"><i class="fas fa-ticket-alt"></i> Бронирование</button>
+        <button class="tab-btn" data-tab="manifest"><i class="fas fa-clipboard-list"></i> Посадочная ведомость</button>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="main-content">
+        <!-- 1. ВКЛАДКА РАСПИСАНИЕ -->
+        <div id="schedule" class="tab-pane active">
+            <div class="section-card">
+                <h2><i class="fas fa-plane-departure" style="color:#f7b731;"></i> Расписание рейсов</h2>
+                <!-- Здесь можно добавить изображение по инструкции -->
+                <div class="airplane-illustration">
+                    <!-- ВСТАВКА ИЗОБРАЖЕНИЯ: замените src на свою картинку -->
+                    <img src="https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+                         alt="Самолет в небе" 
+                         style="width:100%; max-height:180px; object-fit:cover; border-radius:20px;">
+                </div>
+                <table id="flights-table">
+                    <thead>
+                        <tr>
+                            <th>№ рейса</th>
+                            <th>Маршрут</th>
+                            <th>Промежуточные</th>
+                            <th>Дни полёта</th>
+                            <th>Время вылета</th>
+                            <th>Свободных мест</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flights-tbody"></tbody>
+                </table>
+                <p style="margin-top:16px; font-style:italic; color:#3a5e7a;"><i class="fas fa-info-circle"></i> Данные обновляются в реальном времени.</p>
+            </div>
+        </div>
+
+        <!-- 2. ПОИСК БЛИЖАЙШЕГО РЕЙСА -->
+        <div id="search" class="tab-pane">
+            <div class="section-card">
+                <h2><i class="fas fa-map-marked-alt"></i> Найти ближайший рейс до пункта назначения</h2>
+                <div class="form-group">
+                    <label>Город назначения (например: Сочи, Париж, Дубай)</label>
+                    <input type="text" id="dest-city" placeholder="Введите город" value="Сочи">
+                </div>
+                <div class="form-group">
+                    <label>Желаемое время (ЧЧ:ММ, 24ч)</label>
+                    <input type="time" id="desired-time" value="12:00">
+                </div>
+                <button class="btn btn-accent" id="find-nearest-btn"><i class="fas fa-clock"></i> Найти ближайший рейс</button>
+                
+                <div id="search-result" class="result-box" style="display:none;">
+                    <!-- результат поиска -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. БРОНИРОВАНИЕ БИЛЕТОВ -->
+        <div id="booking" class="tab-pane">
+            <div class="section-card">
+                <h2><i class="fas fa-user-plus"></i> Оформление билетов</h2>
+                <div class="booking-panel">
+                    <div style="flex:2; min-width:280px;">
+                        <div class="form-group">
+                            <label>Выберите рейс</label>
+                            <select id="booking-flight-select" style="max-width:100%;">
+                                <!-- заполняется JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Количество билетов (1-9)</label>
+                            <input type="number" id="ticket-count" min="1" max="9" value="1" style="max-width:120px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Имя пассажира (для ведомости)</label>
+                            <input type="text" id="passenger-name" placeholder="Иван Иванов" value="Алексей Петров">
+                        </div>
+                        <button class="btn" id="book-ticket-btn"><i class="fas fa-check"></i> Забронировать</button>
+                        <p id="booking-message" style="margin-top:15px; font-weight:500;"></p>
+                    </div>
+                    <div style="flex:1; background:#e9f0f9; border-radius:24px; padding:22px;">
+                        <h3 style="margin-bottom:16px; color:#0b2f5c;"><i class="fas fa-chair"></i> Информация о рейсе</h3>
+                        <div id="selected-flight-info">Выберите рейс</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. ПОСАДОЧНАЯ ВЕДОМОСТЬ -->
+        <div id="manifest" class="tab-pane">
+            <div class="section-card">
+                <h2><i class="fas fa-users"></i> Посадочная ведомость</h2>
+                <div class="form-group">
+                    <label>Выберите рейс для просмотра пассажиров</label>
+                    <select id="manifest-flight-select" style="max-width:350px;"></select>
+                </div>
+                <button class="btn" id="show-manifest-btn"><i class="fas fa-list"></i> Показать ведомость</button>
+                <div id="manifest-output" class="result-box" style="margin-top:25px;">
+                    <p>Выберите рейс и нажмите кнопку.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ФУТЕР -->
+    <footer class="footer">
+        <div>© 2026 SkyLine. Все права защищены.</div>
+        <div><a href="#"><i class="fas fa-file-contract"></i> Политика конфиденциальности</a> | <a href="#"><i class="fas fa-handshake"></i> Партнёры</a></div>
+    </footer>
+</div>
+
+<script>
+    (function(){
+        "use strict";
+
+        // ---------- ДАННЫЕ О РЕЙСАХ (имитация базы) ----------
+        let flights = [
+            { 
+                id: 'SU100', 
+                flightNumber: 'SU100',
+                route: 'Москва — Сочи',
+                stopover: 'Воронеж',
+                days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                departureTime: '08:30',
+                seatsAvailable: 12,
+                passengers: []  // массив имен пассажиров
+            },
+            { 
+                id: 'SU205', 
+                flightNumber: 'SU205',
+                route: 'Москва — Париж',
+                stopover: 'Минск',
+                days: ['Пн', 'Ср', 'Пт', 'Вс'],
+                departureTime: '14:15',
+                seatsAvailable: 8,
+                passengers: []
+            },
+            { 
+                id: 'DP440', 
+                flightNumber: 'DP440',
+                route: 'Санкт-Петербург — Сочи',
+                stopover: '—',
+                days: ['Вт', 'Чт', 'Сб'],
+                departureTime: '21:40',
+                seatsAvailable: 5,
+                passengers: []
+            },
+            { 
+                id: 'U6623', 
+                flightNumber: 'U6623',
+                route: 'Екатеринбург — Дубай',
+                stopover: 'Казань',
+                days: ['Пн', 'Чт', 'Сб'],
+                departureTime: '09:20',
+                seatsAvailable: 3,
+                passengers: []
+            },
+            { 
+                id: 'FV702', 
+                flightNumber: 'FV702',
+                route: 'Новосибирск — Владивосток',
+                stopover: 'Иркутск',
+                days: ['Ср', 'Пт', 'Вс'],
+                departureTime: '23:55',
+                seatsAvailable: 18,
+                passengers: []
+            }
+        ];
+
+        // Вспомогательная: получить пункт назначения из строки "Москва — Сочи"
+        function getDestination(routeStr) {
+            const parts = routeStr.split('—');
+            return parts.length > 1 ? parts[1].trim() : '';
+        }
+
+        // ---------- ОТОБРАЖЕНИЕ ТАБЛИЦЫ РАСПИСАНИЯ ----------
+        function renderFlightsTable() {
+            const tbody = document.getElementById('flights-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            flights.forEach(flight => {
+                const tr = document.createElement('tr');
+                const dest = getDestination(flight.route);
+                tr.innerHTML = `
+                    <td><strong>${flight.flightNumber}</strong></td>
+                    <td>${flight.route}</td>
+                    <td>${flight.stopover}</td>
+                    <td>${flight.days.join(', ')}</td>
+                    <td>${flight.departureTime}</td>
+                    <td><span class="badge ${flight.seatsAvailable > 0 ? 'success' : 'warning'}">${flight.seatsAvailable}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Обновление селектов рейсов для бронирования и ведомости
+        function populateFlightSelects() {
+            const bookingSelect = document.getElementById('booking-flight-select');
+            const manifestSelect = document.getElementById('manifest-flight-select');
+            if (bookingSelect) {
+                bookingSelect.innerHTML = '';
+                flights.forEach(f => {
+                    const opt = document.createElement('option');
+                    opt.value = f.id;
+                    opt.textContent = `${f.flightNumber} ${f.route} (${f.departureTime}, мест: ${f.seatsAvailable})`;
+                    bookingSelect.appendChild(opt);
+                });
+                updateSelectedFlightInfo(); // сразу покажем инфу о первом
+            }
+            if (manifestSelect) {
+                manifestSelect.innerHTML = '';
+                flights.forEach(f => {
+                    const opt = document.createElement('option');
+                    opt.value = f.id;
+                    opt.textContent = `${f.flightNumber} ${f.route}`;
+                    manifestSelect.appendChild(opt);
+                });
+            }
+        }
+
+        // Показать информацию о выбранном рейсе в блоке бронирования
+        function updateSelectedFlightInfo() {
+            const select = document.getElementById('booking-flight-select');
+            const infoDiv = document.getElementById('selected-flight-info');
+            if (!select || !infoDiv) return;
+            const flightId = select.value;
+            const flight = flights.find(f => f.id === flightId);
+            if (flight) {
+                infoDiv.innerHTML = `
+                    <p><i class="fas fa-fighter-jet"></i> <strong>${flight.flightNumber}</strong> ${flight.route}</p>
+                    <p>🕒 Вылет: ${flight.departureTime}</p>
+                    <p>🪑 Свободных мест: <span class="seat-info">${flight.seatsAvailable}</span></p>
+                    <p>📅 Дни: ${flight.days.join(', ')}</p>
+                `;
+            } else {
+                infoDiv.innerHTML = 'Выберите рейс';
+            }
+        }
+
+        // Обновить таблицу и селекты после изменения данных
+        function refreshUI() {
+            renderFlightsTable();
+            populateFlightSelects();
+            // также обновим информацию о выбранном рейсе (если окно бронирования открыто)
+            updateSelectedFlightInfo();
+        }
+
+        // ---------- ПОИСК БЛИЖАЙШЕГО РЕЙСА ----------
+        function findNearestFlight(destinationCity, desiredTimeStr) {
+            // Преобразуем желаемое время в минуты с начала суток
+            const [hours, minutes] = desiredTimeStr.split(':').map(Number);
+            const desiredMinutes = hours * 60 + minutes;
+
+            // Фильтруем рейсы, у которых пункт назначения совпадает и есть свободные места
+            const candidateFlights = flights.filter(f => {
+                const dest = getDestination(f.route).toLowerCase();
+                return dest.includes(destinationCity.toLowerCase()) && f.seatsAvailable > 0;
+            });
+
+            if (candidateFlights.length === 0) {
+                return { flight: null, message: 'Нет рейсов с указанным пунктом назначения и свободными местами.' };
+            }
+
+            // Для каждого кандидата вычисляем время в минутах и разницу
+            const flightsWithDiff = candidateFlights.map(f => {
+                const [fh, fm] = f.departureTime.split(':').map(Number);
+                const flightMins = fh * 60 + fm;
+                // Ближайший по времени: если рейс позже желаемого, разница положительная; если раньше - отрицательная.
+                // Считаем абсолютную разницу, но хотим минимальное положительное отставание, а если все раньше - минимальное отрицательное.
+                const diff = flightMins - desiredMinutes;
+                return { flight: f, diff: diff, absDiff: Math.abs(diff) };
+            });
+
+            // Сортируем: сначала по абсолютной разнице, потом по diff (при равной abs предпочтение рейсу позже?)
+            flightsWithDiff.sort((a, b) => {
+                if (a.absDiff !== b.absDiff) return a.absDiff - b.absDiff;
+                // при одинаковой близости выбираем более поздний (diff > 0)
+                return b.diff - a.diff;
+            });
+
+            const best = flightsWithDiff[0];
+            return { flight: best.flight, diffMinutes: best.diff };
+        }
+
+        // обработчик кнопки поиска
+        document.getElementById('find-nearest-btn').addEventListener('click', function() {
+            const city = document.getElementById('dest-city').value.trim();
+            const timeInput = document.getElementById('desired-time').value;
+            if (!city || !timeInput) {
+                alert('Введите город и время');
+                return;
+            }
+            const resultDiv = document.getElementById('search-result');
+            const { flight, message, diffMinutes } = findNearestFlight(city, timeInput);
+            
+            if (!flight) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `<p style="color:#b00020;"><i class="fas fa-exclamation-triangle"></i> ${message || 'Рейсы не найдены'}</p>`;
+                return;
+            }
+
+            const timeDiffText = diffMinutes >= 0 
+                ? `через ${diffMinutes} мин` 
+                : `на ${Math.abs(diffMinutes)} мин раньше`;
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3 style="margin-bottom:10px;"><i class="fas fa-check-circle" style="color:#2e7d32;"></i> Ближайший рейс:</h3>
+                <p class="flight-highlight">${flight.flightNumber} ${flight.route}</p>
+                <p>🕒 Вылет в ${flight.departureTime} (${timeDiffText} от указанного времени)</p>
+                <p>🪑 Свободных мест: <strong>${flight.seatsAvailable}</strong></p>
+                <p>📌 Промежуточные: ${flight.stopover} | Дни: ${flight.days.join(', ')}</p>
+                <button class="btn btn-accent" style="margin-top:16px;" id="go-to-booking-from-search"><i class="fas fa-ticket-alt"></i> Перейти к бронированию</button>
+            `;
+            // кнопка перехода
+            document.getElementById('go-to-booking-from-search')?.addEventListener('click', ()=>{
+                document.querySelector('[data-tab="booking"]').click();
+                // предвыбрать этот рейс в селекте
+                const bookingSelect = document.getElementById('booking-flight-select');
+                if (bookingSelect) {
+                    bookingSelect.value = flight.id;
+                    updateSelectedFlightInfo();
+                }
+            });
+        });
+
+        // ---------- БРОНИРОВАНИЕ ----------
+        document.getElementById('book-ticket-btn').addEventListener('click', function() {
+            const select = document.getElementById('booking-flight-select');
+            const flightId = select.value;
+            const flight = flights.find(f => f.id === flightId);
+            const countInput = document.getElementById('ticket-count');
+            const passengerName = document.getElementById('passenger-name').value.trim();
+            const msgDiv = document.getElementById('booking-message');
+
+            if (!flight) { msgDiv.innerHTML = '❌ Рейс не выбран'; return; }
+            const count = parseInt(countInput.value, 10);
+            if (isNaN(count) || count < 1) { msgDiv.innerHTML = '❌ Неверное количество'; return; }
+            if (!passengerName) { msgDiv.innerHTML = '❌ Введите имя пассажира'; return; }
+            if (flight.seatsAvailable < count) {
+                msgDiv.innerHTML = `❌ Недостаточно мест. Доступно: ${flight.seatsAvailable}`;
+                return;
+            }
+
+            // Бронирование: уменьшаем места, добавляем пассажира (для простоты добавим одно имя, но можно расширить)
+            flight.seatsAvailable -= count;
+            for (let i=0; i<count; i++) {
+                // Для каждого билета добавим запись (можно с номером)
+                flight.passengers.push(`${passengerName}${count>1 ? ` (билет ${i+1})` : ''}`);
+            }
+            
+            msgDiv.innerHTML = `✅ Забронировано ${count} билет(ов) на имя ${passengerName}. Осталось мест: ${flight.seatsAvailable}`;
+            // Очистить поле имени? Оставим как есть.
+            
+            refreshUI(); // обновить таблицу и селекты
+        });
+
+        // Обновление инфы при смене рейса в бронировании
+        document.getElementById('booking-flight-select').addEventListener('change', updateSelectedFlightInfo);
+
+        // ---------- ПОСАДОЧНАЯ ВЕДОМОСТЬ ----------
+        document.getElementById('show-manifest-btn').addEventListener('click', function() {
+            const select = document.getElementById('manifest-flight-select');
+            const flightId = select.value;
+            const flight = flights.find(f => f.id === flightId);
+            const outputDiv = document.getElementById('manifest-output');
+            if (!flight) {
+                outputDiv.innerHTML = '<p>Рейс не найден.</p>';
+                return;
+            }
+
+            if (flight.passengers.length === 0) {
+                outputDiv.innerHTML = `<p>📋 На рейс ${flight.flightNumber} пока нет зарегистрированных пассажиров.</p>`;
+                return;
+            }
+
+            let html = `<h3>🛫 Посадочная ведомость рейса ${flight.flightNumber} (${flight.route})</h3>`;
+            html += `<p><strong>Дата вылета (сегодня):</strong> ${new Date().toLocaleDateString('ru-RU')} ${flight.departureTime}</p>`;
+            html += `<ul class="passenger-list">`;
+            flight.passengers.forEach((p, idx) => {
+                html += `<li>${idx+1}. ${p}</li>`;
+            });
+            html += `</ul><p><i class="fas fa-check-circle" style="color:green;"></i> Всего пассажиров: ${flight.passengers.length}</p>`;
+            outputDiv.innerHTML = html;
+        });
+
+        // ---------- ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ----------
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const panes = document.querySelectorAll('.tab-pane');
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                // удалить active у всех
+                tabButtons.forEach(b => b.classList.remove('active'));
+                panes.forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // при открытии вкладки расписания или бронирования обновить селекты (на всякий)
+                if (tabId === 'booking') {
+                    populateFlightSelects();
+                    updateSelectedFlightInfo();
+                }
+                if (tabId === 'manifest') {
+                    populateFlightSelects();
+                }
+            });
+        });
+
+        // Инициализация
+        renderFlightsTable();
+        populateFlightSelects();
+        updateSelectedFlightInfo();
+    })();
+</script>
+-->
+</body>
+</html>
