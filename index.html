@@ -95,7 +95,9 @@
         <button class="tab-btn" data-tab="reviews"><i class="fas fa-star"></i> Отзывы</button>
     </div>
     <main class="main-content">
-        <div id="schedule" class="tab-pane active"><div class="section-card"><h2><i class="fas fa-plane-departure"></i> Расписание рейсов</h2><table id="flights-table"><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата</th><th>Время</th><th>Мест</th><th>Цена (эконом)</th><th></th></tr></thead><tbody id="flights-tbody"></tbody></table></div></div>
+        <div id="schedule" class="tab-pane active"><div class="section-card"><h2><i class="fas fa-plane-departure"></i> Расписание рейсов</h2>
+            <!-- ФОТОГРАФИЯ УДАЛЕНА -->
+            <table id="flights-table"><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата</th><th>Время</th><th>Мест</th><th>Цена (эконом)</th><th></th></tr></thead><tbody id="flights-tbody"></tbody></table></div></div>
         <div id="search" class="tab-pane"><div class="section-card"><h2><i class="fas fa-map-marked-alt"></i> Поиск авиабилетов</h2><div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;"><div class="form-group"><label>Откуда</label><select id="from-city"><option>Москва</option><option>Санкт-Петербург</option><option>Екатеринбург</option><option>Казань</option><option>Новосибирск</option></select></div><div class="form-group"><label>Куда</label><select id="to-city"><option>Сочи</option><option>Париж</option><option>Дубай</option><option>Владивосток</option><option>Минск</option></select></div><div class="form-group"><label>Дата вылета</label><input type="date" id="departure-date"></div><div class="form-group"><label>Обратная дата</label><input type="date" id="return-date"></div><div class="form-group"><label>Класс</label><select id="class-select"><option value="economy">Эконом</option><option value="business">Бизнес</option></select></div><div class="form-group" style="align-self:end;"><button class="btn btn-accent" id="search-flights-btn"><i class="fas fa-search"></i> Найти</button></div></div><div id="search-results" class="result-box" style="display:none;"></div></div></div>
         <div id="booking" class="tab-pane"><div class="section-card"><h2><i class="fas fa-user-plus"></i> Оформление билетов</h2><div style="display:flex; gap:30px; flex-wrap: wrap;"><div style="flex:2; min-width: 300px;"><div class="form-group"><label>Выберите рейс</label><select id="booking-flight-select"></select></div><div class="form-group"><label>Класс обслуживания</label><select id="booking-class"><option value="economy">Эконом</option><option value="business">Бизнес</option></select></div><div class="form-group"><label>Количество билетов</label><input type="number" id="ticket-count" min="1" value="1" max="9"></div>
             <div id="passenger-fields-container"></div>
@@ -127,13 +129,17 @@
                 { num: 'S7111', from: 'Казань', to: 'Минск', basePrice: 6700, duration: '2ч 50м', terminal: 'E', meal: 'Завтрак' }
             ];
             const today = new Date(); flights = [];
-            base.forEach(bf => { for (let i=0; i<7; i++) { const d = new Date(today); d.setDate(today.getDate()+i); const ds = d.toISOString().split('T')[0]; const time = `${String(8+i*3).padStart(2,'0')}:${String(10+i*7).padStart(2,'0')}`; flights.push({ id: `${bf.num}-${ds}`, flightNumber: bf.num, fromCity: bf.from, toCity: bf.to, date: ds, departureTime: time, basePrice: bf.basePrice, seatsAvailable: Math.floor(Math.random()*15)+3, passengers: [], duration: bf.duration, terminal: bf.terminal, meal: bf.meal }); } });
+            base.forEach(bf => { for (let i=0; i<7; i++) { const d = new Date(today); d.setDate(today.getDate()+i); const ds = d.toISOString().split('T')[0];
+                // ИСПРАВЛЕННАЯ ГЕНЕРАЦИЯ ВРЕМЕНИ (единственное изменение)
+                const hours = (8 + i * 3) % 24;
+                const minutes = (10 + i * 7) % 60;
+                const time = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;
+                flights.push({ id: `${bf.num}-${ds}`, flightNumber: bf.num, fromCity: bf.from, toCity: bf.to, date: ds, departureTime: time, basePrice: bf.basePrice, seatsAvailable: Math.floor(Math.random()*15)+3, passengers: [], duration: bf.duration, terminal: bf.terminal, meal: bf.meal }); } });
         }
         generateFlights();
         function calculatePrice(f, cls='economy') { const today = new Date(); today.setHours(0,0,0,0); const fd = new Date(f.date); fd.setHours(0,0,0,0); const diff = Math.max(0, (fd-today)/86400000); let mult = 1; if(diff<3) mult=1.5; else if(diff<7) mult=1.2; let p = f.basePrice*mult; if(cls==='business') p*=2.5; return Math.round(p); }
         function isValidName(n) { return /^[A-Za-zА-Яа-яЁё\s\-]+$/.test(n); }
 
-        // --- Динамические поля пассажиров ---
         function renderPassengerFields() {
             const container = document.getElementById('passenger-fields-container');
             const count = parseInt(document.getElementById('ticket-count').value) || 1;
@@ -151,10 +157,7 @@
             }
             container.innerHTML = html;
         }
-
-        // Обработчик изменения количества
         document.getElementById('ticket-count').addEventListener('input', renderPassengerFields);
-        // Инициализация при загрузке
         renderPassengerFields();
 
         function renderFlightsTable() { const tb = document.getElementById('flights-tbody'); tb.innerHTML = ''; flights.forEach(f => { const tr = document.createElement('tr'); tr.innerHTML = `<td><strong>${f.flightNumber}</strong></td><td>${f.fromCity} → ${f.toCity}</td><td>${f.date}</td><td>${f.departureTime}</td><td><span class="badge ${f.seatsAvailable>0?'success':''}">${f.seatsAvailable}</span></td><td>от ${calculatePrice(f,'economy')} ₽</td><td><button class="btn-outline btn" data-id="${f.id}"><i class="fas fa-info-circle"></i> Подробнее</button></td>`; tb.appendChild(tr); }); document.querySelectorAll('[data-id]').forEach(b => b.addEventListener('click', e => { const f = flights.find(fl => fl.id===e.currentTarget.dataset.id); if(f) showFlightModal(f); })); }
@@ -185,7 +188,6 @@
         }
         function refreshUI() { renderFlightsTable(); populateSelects(); }
 
-        // Поиск с альтернативами
         document.getElementById('search-flights-btn').addEventListener('click', ()=>{
             const from = document.getElementById('from-city').value, to = document.getElementById('to-city').value, dep = document.getElementById('departure-date').value, cls = document.getElementById('class-select').value, res = document.getElementById('search-results');
             if(!dep) { alert('Выберите дату'); return; }
@@ -218,7 +220,6 @@
             }));
         });
 
-        // Бронирование с новыми полями
         document.getElementById('book-ticket-btn').addEventListener('click', ()=>{
             const fid = document.getElementById('booking-flight-select').value, f = flights.find(fl => fl.id===fid);
             const cnt = parseInt(document.getElementById('ticket-count').value);
