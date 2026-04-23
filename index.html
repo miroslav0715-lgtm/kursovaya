@@ -57,20 +57,77 @@
         .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
         .review-avatar { width: 48px; height: 48px; background: #1e4a76; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .review-rating { color: #f7b731; margin-left: auto; }
-        .flight-info-simple { background: #f4f9ff; border-radius: 24px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .flight-info-simple h3 { font-size: 1.8rem; color: #0b2f5c; margin-bottom: 20px; border-bottom: 2px solid #f7b731; padding-bottom: 10px; }
-        .info-line { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1.2rem; }
-        .info-line .label { color: #3a5e7a; }
-        .info-line .value { font-weight: 600; color: #0b2f5c; }
-        .price-row-simple { display: flex; justify-content: space-between; margin-top: 20px; font-size: 1.4rem; font-weight: 600; }
-        .total-price { border-top: 2px dashed #a0bbd0; padding-top: 15px; margin-top: 15px; font-size: 1.6rem; }
+        /* Возвращённый подробный инфо-блок */
+        .flight-info-card {
+            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+            border-radius: 28px;
+            padding: 28px 24px;
+            box-shadow: 0 12px 24px rgba(11, 47, 92, 0.08);
+            border: 1px solid rgba(247, 183, 49, 0.2);
+            height: fit-content;
+        }
+        .flight-info-card h3 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0b2f5c;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #f7b731;
+            padding-bottom: 15px;
+        }
+        .flight-info-card h3 i {
+            color: #f7b731;
+            font-size: 2rem;
+        }
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 22px;
+            font-size: 1.2rem;
+        }
+        .info-row i {
+            width: 36px;
+            font-size: 1.9rem;
+            color: #1e4a76;
+            text-align: center;
+        }
+        .info-row strong {
+            display: block;
+            font-size: 1rem;
+            color: #4a6a8a;
+            font-weight: 500;
+        }
+        .info-row .value {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #0b2f5c;
+            line-height: 1.3;
+        }
+        .price-block {
+            background: rgba(247, 183, 49, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .price-block .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .price-block .price-row span:last-child {
+            color: #0b2f5c;
+        }
         .footer { padding: 20px 30px; background: #0a233b; color: #bbd1e5; display: flex; flex-wrap: wrap; justify-content: space-between; }
         .subscribe-box input { padding: 10px 16px; border-radius: 40px; border: none; width: 220px; }
         .subscribe-box button { background: #f7b731; color: #0b2f5c; border: none; padding: 10px 20px; border-radius: 40px; margin-left: 8px; }
         .manifest-header { background: #0b2f5c; color: white; padding: 16px 20px; border-radius: 20px 20px 0 0; }
         .manifest-body { background: #f5faff; padding: 20px; border-radius: 0 0 20px 20px; }
         .passenger-item { padding: 8px 0; border-bottom: 1px solid #cbdae6; }
-        /* Cookie modal */
         .cookie-modal-content { font-size: 1.1rem; line-height: 1.6; }
         @media (max-width: 700px) { .header { flex-direction: column; } .cookie-consent { flex-direction: column; gap: 15px; } }
     </style>
@@ -91,11 +148,11 @@
     </div>
     <main class="main-content">
         <!-- РАСПИСАНИЕ -->
-        <div id="schedule" class="tab-pane active"><div class="section-card"><h2><i class="fas fa-plane-departure"></i> Расписание рейсов</h2><div class="airplane-illustration"><img src="https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Самолет" style="width:100%; max-height:180px; object-fit:cover; border-radius:20px;"></div><table id="flights-table"><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата</th><th>Время</th><th>Мест</th><th>Цена (эконом)</th><th></th></tr></thead><tbody id="flights-tbody"></tbody></table></div></div>
+        <div id="schedule" class="tab-pane active"><div class="section-card"><h2><i class="fas fa-plane-departure"></i> Расписание рейсов</h2><div class="airplane-illustration"><img src="C:\Users\miros\Desktop\kursovaya\pupupupu.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Самолет" style="width:100%; max-height:180px; object-fit:cover; border-radius:20px;"></div><table id="flights-table"><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата</th><th>Время</th><th>Мест</th><th>Цена (эконом)</th><th></th></tr></thead><tbody id="flights-tbody"></tbody></table></div></div>
         <!-- ПОИСК -->
         <div id="search" class="tab-pane"><div class="section-card"><h2><i class="fas fa-map-marked-alt"></i> Поиск авиабилетов</h2><div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;"><div class="form-group"><label>Откуда</label><select id="from-city"><option>Москва</option><option>Санкт-Петербург</option><option>Екатеринбург</option><option>Казань</option><option>Новосибирск</option></select></div><div class="form-group"><label>Куда</label><select id="to-city"><option>Сочи</option><option>Париж</option><option>Дубай</option><option>Владивосток</option><option>Минск</option></select></div><div class="form-group"><label>Дата вылета</label><input type="date" id="departure-date"></div><div class="form-group"><label>Обратная дата</label><input type="date" id="return-date"></div><div class="form-group"><label>Класс</label><select id="class-select"><option value="economy">Эконом</option><option value="business">Бизнес</option></select></div><div class="form-group" style="align-self:end;"><button class="btn btn-accent" id="search-flights-btn"><i class="fas fa-search"></i> Найти</button></div></div><div id="search-results" class="result-box" style="display:none;"></div></div></div>
         <!-- БРОНИРОВАНИЕ -->
-        <div id="booking" class="tab-pane"><div class="section-card"><h2><i class="fas fa-user-plus"></i> Оформление билетов</h2><div style="display:flex; gap:30px; flex-wrap: wrap;"><div style="flex:2; min-width: 300px;"><div class="form-group"><label>Выберите рейс</label><select id="booking-flight-select"></select></div><div class="form-group"><label>Класс обслуживания</label><select id="booking-class"><option value="economy">Эконом</option><option value="business">Бизнес</option></select></div><div class="form-group"><label>Количество билетов</label><input type="number" id="ticket-count" min="1" value="1" max="9"></div><div class="form-group"><label>Имя и фамилия</label><input type="text" id="passenger-name" placeholder="Иван Иванов"><div style="font-size:0.8rem; color:#4a6a8a;">Только буквы, пробел и дефис</div></div><button class="btn" id="book-ticket-btn"><i class="fas fa-check"></i> Забронировать</button><p id="booking-message" style="margin-top:15px;"></p><div id="payment-section" style="margin-top:20px;"></div></div><div style="flex:1.4; min-width: 340px;"><div class="flight-info-simple"><h3><i class="fas fa-info-circle"></i> Информация о рейсе</h3><div id="selected-flight-info-simple">Выберите рейс</div></div></div></div></div></div>
+        <div id="booking" class="tab-pane"><div class="section-card"><h2><i class="fas fa-user-plus"></i> Оформление билетов</h2><div style="display:flex; gap:30px; flex-wrap: wrap;"><div style="flex:2; min-width: 300px;"><div class="form-group"><label>Выберите рейс</label><select id="booking-flight-select"></select></div><div class="form-group"><label>Класс обслуживания</label><select id="booking-class"><option value="economy">Эконом</option><option value="business">Бизнес</option></select></div><div class="form-group"><label>Количество билетов</label><input type="number" id="ticket-count" min="1" value="1" max="9"></div><div class="form-group"><label>Имя и фамилия</label><input type="text" id="passenger-name" placeholder="Иван Иванов"><div style="font-size:0.8rem; color:#4a6a8a;">Только буквы, пробел и дефис</div></div><button class="btn" id="book-ticket-btn"><i class="fas fa-check"></i> Забронировать</button><p id="booking-message" style="margin-top:15px;"></p><div id="payment-section" style="margin-top:20px;"></div></div><div style="flex:1.4; min-width: 340px;"><div class="flight-info-card"><h3><i class="fas fa-info-circle"></i> Информация о рейсе</h3><div id="selected-flight-info-v2">Выберите рейс</div></div></div></div></div></div>
         <!-- ВЕДОМОСТЬ -->
         <div id="manifest" class="tab-pane"><div class="section-card"><h2>Посадочная ведомость</h2><select id="manifest-flight-select"></select><button class="btn" id="show-manifest-btn" style="margin-left:15px;">Показать</button><div id="manifest-output" class="result-box" style="margin-top:25px;"></div></div></div>
         <!-- FAQ -->
@@ -161,15 +218,15 @@
         let flights = [];
         function generateFlights() {
             const base = [
-                { num: 'SU100', from: 'Москва', to: 'Сочи', basePrice: 4500 },
-                { num: 'SU205', from: 'Москва', to: 'Париж', basePrice: 12000 },
-                { num: 'DP440', from: 'Санкт-Петербург', to: 'Сочи', basePrice: 5200 },
-                { num: 'U6623', from: 'Екатеринбург', to: 'Дубай', basePrice: 18500 },
-                { num: 'FV702', from: 'Новосибирск', to: 'Владивосток', basePrice: 9800 },
-                { num: 'S7111', from: 'Казань', to: 'Минск', basePrice: 6700 }
+                { num: 'SU100', from: 'Москва', to: 'Сочи', basePrice: 4500, duration: '2ч 30м', terminal: 'D', meal: 'Горячее питание' },
+                { num: 'SU205', from: 'Москва', to: 'Париж', basePrice: 12000, duration: '4ч 05м', terminal: 'C', meal: 'Ужин' },
+                { num: 'DP440', from: 'Санкт-Петербург', to: 'Сочи', basePrice: 5200, duration: '3ч 15м', terminal: 'A', meal: 'Завтрак' },
+                { num: 'U6623', from: 'Екатеринбург', to: 'Дубай', basePrice: 18500, duration: '5ч 40м', terminal: 'B', meal: 'Обед' },
+                { num: 'FV702', from: 'Новосибирск', to: 'Владивосток', basePrice: 9800, duration: '5ч 50м', terminal: 'F', meal: 'Ужин' },
+                { num: 'S7111', from: 'Казань', to: 'Минск', basePrice: 6700, duration: '2ч 50м', terminal: 'E', meal: 'Завтрак' }
             ];
             const today = new Date(); flights = [];
-            base.forEach(bf => { for (let i=0; i<7; i++) { const d = new Date(today); d.setDate(today.getDate()+i); const ds = d.toISOString().split('T')[0]; const time = `${String(8+i*3).padStart(2,'0')}:${String(10+i*7).padStart(2,'0')}`; flights.push({ id: `${bf.num}-${ds}`, flightNumber: bf.num, fromCity: bf.from, toCity: bf.to, date: ds, departureTime: time, basePrice: bf.basePrice, seatsAvailable: Math.floor(Math.random()*15)+3, passengers: [] }); } });
+            base.forEach(bf => { for (let i=0; i<7; i++) { const d = new Date(today); d.setDate(today.getDate()+i); const ds = d.toISOString().split('T')[0]; const time = `${String(8+i*3).padStart(2,'0')}:${String(10+i*7).padStart(2,'0')}`; flights.push({ id: `${bf.num}-${ds}`, flightNumber: bf.num, fromCity: bf.from, toCity: bf.to, date: ds, departureTime: time, basePrice: bf.basePrice, seatsAvailable: Math.floor(Math.random()*15)+3, passengers: [], duration: bf.duration, terminal: bf.terminal, meal: bf.meal }); } });
         }
         generateFlights();
         function calculatePrice(f, cls='economy') { const today = new Date(); today.setHours(0,0,0,0); const fd = new Date(f.date); fd.setHours(0,0,0,0); const diff = Math.max(0, (fd-today)/86400000); let mult = 1; if(diff<3) mult=1.5; else if(diff<7) mult=1.2; let p = f.basePrice*mult; if(cls==='business') p*=2.5; return Math.round(p); }
@@ -178,24 +235,30 @@
         function showFlightModal(f) { document.getElementById('modal-flight-number').textContent = f.flightNumber; document.getElementById('modal-route').textContent = `${f.fromCity} → ${f.toCity}`; document.getElementById('modal-date').textContent = f.date; document.getElementById('modal-time').textContent = f.departureTime; document.getElementById('modal-seats').textContent = `${f.seatsAvailable} мест`; document.getElementById('modal-economy').textContent = calculatePrice(f,'economy'); document.getElementById('modal-business').textContent = calculatePrice(f,'business'); document.getElementById('flight-modal').style.display='flex'; }
         document.getElementById('close-modal-btn').onclick = ()=> document.getElementById('flight-modal').style.display='none';
         window.onclick = e => { if(e.target === document.getElementById('flight-modal')) document.getElementById('flight-modal').style.display='none'; if(e.target === document.getElementById('cookie-modal')) document.getElementById('cookie-modal').style.display='none'; };
-        function populateSelects() { const bs = document.getElementById('booking-flight-select'); const ms = document.getElementById('manifest-flight-select'); bs.innerHTML = ''; ms.innerHTML = ''; flights.forEach(f => { const o = document.createElement('option'); o.value = f.id; o.textContent = `${f.flightNumber} ${f.fromCity}→${f.toCity} ${f.date} ${f.departureTime} (${f.seatsAvailable})`; bs.appendChild(o.cloneNode(true)); ms.appendChild(o); }); updateSimpleInfoPanel(); }
-        function updateSimpleInfoPanel() {
-            const s = document.getElementById('booking-flight-select'); const f = flights.find(fl => fl.id === s.value); const c = document.getElementById('selected-flight-info-simple');
+        function populateSelects() { const bs = document.getElementById('booking-flight-select'); const ms = document.getElementById('manifest-flight-select'); bs.innerHTML = ''; ms.innerHTML = ''; flights.forEach(f => { const o = document.createElement('option'); o.value = f.id; o.textContent = `${f.flightNumber} ${f.fromCity}→${f.toCity} ${f.date} ${f.departureTime} (${f.seatsAvailable})`; bs.appendChild(o.cloneNode(true)); ms.appendChild(o); }); updateFlightInfoPanel(); }
+        function updateFlightInfoPanel() {
+            const s = document.getElementById('booking-flight-select'); const f = flights.find(fl => fl.id === s.value); const c = document.getElementById('selected-flight-info-v2');
             if(!f) { c.innerHTML='Выберите рейс'; return; }
             const ec = calculatePrice(f,'economy'); const bc = calculatePrice(f,'business'); const cls = document.getElementById('booking-class').value; const cur = cls==='economy'?ec:bc;
             c.innerHTML = `
-                <div class="info-line"><span class="label">Рейс</span><span class="value">${f.flightNumber}</span></div>
-                <div class="info-line"><span class="label">Маршрут</span><span class="value">${f.fromCity} → ${f.toCity}</span></div>
-                <div class="info-line"><span class="label">Дата</span><span class="value">${f.date}</span></div>
-                <div class="info-line"><span class="label">Время вылета</span><span class="value">${f.departureTime}</span></div>
-                <div class="info-line"><span class="label">Свободных мест</span><span class="value">${f.seatsAvailable}</span></div>
-                <div class="price-row-simple"><span>Эконом</span><span>${ec} ₽</span></div>
-                <div class="price-row-simple"><span>Бизнес</span><span>${bc} ₽</span></div>
-                <div class="total-price"><span>К оплате</span><span>${cur} ₽</span></div>
+                <div class="info-row"><i class="fas fa-plane"></i><div><strong>Рейс</strong><div class="value">${f.flightNumber}</div></div></div>
+                <div class="info-row"><i class="fas fa-map-marked-alt"></i><div><strong>Маршрут</strong><div class="value">${f.fromCity} → ${f.toCity}</div></div></div>
+                <div class="info-row"><i class="far fa-calendar-alt"></i><div><strong>Дата</strong><div class="value">${f.date}</div></div></div>
+                <div class="info-row"><i class="far fa-clock"></i><div><strong>Время</strong><div class="value">${f.departureTime}</div></div></div>
+                <div class="info-row"><i class="fas fa-hourglass-half"></i><div><strong>Длительность</strong><div class="value">${f.duration}</div></div></div>
+                <div class="info-row"><i class="fas fa-door-open"></i><div><strong>Терминал</strong><div class="value">${f.terminal}</div></div></div>
+                <div class="info-row"><i class="fas fa-utensils"></i><div><strong>Питание</strong><div class="value">${f.meal}</div></div></div>
+                <div class="info-row"><i class="fas fa-chair"></i><div><strong>Свободных мест</strong><div class="value">${f.seatsAvailable}</div></div></div>
+                <div class="price-block">
+                    <div class="price-row"><span>Эконом</span><span>${ec} ₽</span></div>
+                    <div class="price-row"><span>Бизнес</span><span>${bc} ₽</span></div>
+                    <div style="border-top:1px dashed #aaa; margin: 15px 0;"></div>
+                    <div class="price-row" style="font-size:1.6rem;"><span>К оплате</span><span>${cur} ₽</span></div>
+                </div>
             `;
         }
         function refreshUI() { renderFlightsTable(); populateSelects(); }
-        // Поиск с альтернативами
+        // Поиск с альтернативами (исправлен)
         document.getElementById('search-flights-btn').addEventListener('click', ()=>{
             const from = document.getElementById('from-city').value, to = document.getElementById('to-city').value, dep = document.getElementById('departure-date').value, cls = document.getElementById('class-select').value, res = document.getElementById('search-results');
             if(!dep) { alert('Выберите дату'); return; }
@@ -206,19 +269,25 @@
                 exact.forEach(f => { const p = calculatePrice(f,cls); html += `<div><strong>${f.flightNumber}</strong> ${f.fromCity}→${f.toCity} ${f.date} ${f.departureTime} | 💺 ${f.seatsAvailable} | 💰 ${p} ₽ <button class="btn btn-accent" data-fid="${f.id}">Выбрать</button></div>`; });
                 res.innerHTML = html;
             } else {
-                const altDates = new Set(); const targetDate = new Date(dep);
-                for(let i=-3; i<=3; i++) { const d = new Date(targetDate); d.setDate(targetDate.getDate()+i); altDates.add(d.toISOString().split('T')[0]); }
-                const altFlights = flights.filter(f => f.fromCity===from && f.toCity===to && altDates.has(f.date) && f.seatsAvailable>0);
-                if(altFlights.length===0) { res.innerHTML = '<p>❌ Нет рейсов в ближайшие даты.</p>'; return; }
+                const targetDate = new Date(dep);
+                const altFlights = flights.filter(f => {
+                    if (f.fromCity !== from || f.toCity !== to || f.seatsAvailable <= 0) return false;
+                    const fDate = new Date(f.date);
+                    const diffTime = Math.abs(fDate - targetDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return diffDays <= 3;
+                });
+                if(altFlights.length===0) { res.innerHTML = '<p>❌ Нет рейсов в ближайшие 3 дня.</p>'; return; }
                 let html = `<p>❌ На ${dep} рейсов нет. Ближайшие доступные даты:</p>`;
-                const grouped = {}; altFlights.forEach(f => { if(!grouped[f.date]) grouped[f.date] = []; grouped[f.date].push(f); });
+                const grouped = {};
+                altFlights.forEach(f => { if(!grouped[f.date]) grouped[f.date] = []; grouped[f.date].push(f); });
                 for(const d in grouped) { html += `<h4>${d}</h4>`; grouped[d].forEach(f => { const p = calculatePrice(f,cls); html += `<div><strong>${f.flightNumber}</strong> ${f.departureTime} | 💺 ${f.seatsAvailable} | 💰 ${p} ₽ <button class="btn btn-accent" data-fid="${f.id}">Выбрать</button></div>`; }); }
                 res.innerHTML = html;
             }
             res.querySelectorAll('[data-fid]').forEach(b => b.addEventListener('click', e => {
                 document.querySelector('[data-tab="booking"]').click();
                 document.getElementById('booking-flight-select').value = e.target.dataset.fid;
-                updateSimpleInfoPanel();
+                updateFlightInfoPanel();
             }));
         });
         // Бронирование с оплатой
@@ -239,8 +308,8 @@
             document.getElementById('pay-btn').addEventListener('click', ()=>{ alert(`Оплата ${price*cnt} ₽. Спасибо!`); paySec.innerHTML = '<p>Оплата выполнена (демо).</p>'; });
             refreshUI();
         });
-        document.getElementById('booking-flight-select').addEventListener('change', updateSimpleInfoPanel);
-        document.getElementById('booking-class').addEventListener('change', updateSimpleInfoPanel);
+        document.getElementById('booking-flight-select').addEventListener('change', updateFlightInfoPanel);
+        document.getElementById('booking-class').addEventListener('change', updateFlightInfoPanel);
         // Ведомость
         document.getElementById('show-manifest-btn').addEventListener('click', ()=>{
             const fid = document.getElementById('manifest-flight-select').value, f = flights.find(fl => fl.id===fid);
@@ -257,14 +326,9 @@
         document.getElementById('accept-cookies').onclick = ()=>{ document.getElementById('cookie-banner').style.display='none'; localStorage.setItem('cookies','1'); };
         if(localStorage.getItem('cookies')) document.getElementById('cookie-banner').style.display='none';
         // Cookie details modal
-        document.getElementById('cookie-details-link').addEventListener('click', (e)=>{
-            e.preventDefault();
-            document.getElementById('cookie-modal').style.display = 'flex';
-        });
-        document.getElementById('close-cookie-modal-btn').addEventListener('click', ()=>{
-            document.getElementById('cookie-modal').style.display = 'none';
-        });
-        // Подписка
+        document.getElementById('cookie-details-link').addEventListener('click', (e)=>{ e.preventDefault(); document.getElementById('cookie-modal').style.display = 'flex'; });
+        document.getElementById('close-cookie-modal-btn').addEventListener('click', ()=>{ document.getElementById('cookie-modal').style.display = 'none'; });
+        // Подписка (без имитации)
         document.getElementById('subscribe-btn').addEventListener('click', ()=>{
             const email = document.getElementById('subscribe-email').value, consent = document.getElementById('consent-checkbox').checked;
             if(!email || !consent) { alert('Введите email и подтвердите согласие'); return; }
